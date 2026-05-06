@@ -63,28 +63,29 @@ public struct Response: Identifiable, Equatable, Hashable, Codable, Sendable {
 		case inProgress = "in_progress"
 	}
 
-	public struct Usage: Equatable, Hashable, Codable, Sendable {
-		public let totalTokens: Int
-		public let inputTokens: Int
-		public let outputTokens: Int
-		public let inputTokenDetails: InputTokenDetails
-		public let outputTokenDetails: OutputTokenDetails
+    public struct Usage: Equatable, Hashable, Codable, Sendable {
+        public let totalTokens: Int?
+        public let inputTokens: Int?
+        public let outputTokens: Int?
+        public let inputTokenDetails: InputTokenDetails?
+        public let outputTokenDetails: OutputTokenDetails?
 
-		public struct InputTokenDetails: Equatable, Hashable, Codable, Sendable {
-			public let textTokens: Int
-			public let audioTokens: Int
-			public let cachedTokens: Int
-			public let cachedTokensDetails: CachedTokensDetails
+        // 7代目 patch 2026-05-06: OpenAI が返さないfieldがあるため全部 Optional化
+        public struct InputTokenDetails: Equatable, Hashable, Codable, Sendable {
+            public let textTokens: Int?
+            public let audioTokens: Int?
+            public let cachedTokens: Int?
+            public let cachedTokensDetails: CachedTokensDetails?
 
-			public struct CachedTokensDetails: Equatable, Hashable, Codable, Sendable {
-				public let textTokens: Int
-				public let audioTokens: Int
-			}
-		}
+            public struct CachedTokensDetails: Equatable, Hashable, Codable, Sendable {
+                public let textTokens: Int?
+                public let audioTokens: Int?
+            }
+        }
 
 		public struct OutputTokenDetails: Equatable, Hashable, Codable, Sendable {
-			public let textTokens: Int
-			public let audioTokens: Int
+			public let textTokens: Int?
+			public let audioTokens: Int?
 		}
 	}
 

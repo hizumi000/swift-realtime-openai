@@ -179,6 +179,21 @@ private extension Conversation {
 				self.session = session
 			case let .conversationItemCreated(_, item, _):
 				entries.append(item)
+            case let .conversationItemAdded(_, item, _):
+                // 7代目 patch 2026-05-06: OpenAI Realtime GA で名前変更された
+                // conversation.item.added を扱う。 同じitemが既にあれば update、 なければ append
+                if let idx = entries.firstIndex(where: { $0.id == item.id }) {
+                    entries[idx] = item
+                } else {
+                    entries.append(item)
+                }
+            case let .conversationItemDone(_, item, _):
+                // 7代目 patch 2026-05-06: 完了状態の item を最終 transcript で update
+                if let idx = entries.firstIndex(where: { $0.id == item.id }) {
+                    entries[idx] = item
+                } else {
+                    entries.append(item)
+                }
 			case let .conversationItemDeleted(_, itemId):
 				entries.removeAll { $0.id == itemId }
 			case let .conversationItemInputAudioTranscriptionCompleted(_, itemId, contentIndex, transcript, _, _):
