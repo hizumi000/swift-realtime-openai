@@ -71,6 +71,7 @@ public final class Conversation: @unchecked Sendable {
 
 			do {
 				for try await event in self.client.events {
+                    print("[SDKEvent]", String(describing: event).prefix(300))
 					do { try await self.handleEvent(event) }
 					catch { print("Unhandled error in event handler: \(error)") }
 
